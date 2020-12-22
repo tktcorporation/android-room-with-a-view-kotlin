@@ -1,9 +1,18 @@
 package com.tktcorporation.roomwithaview.app.viewmodel
 
-import androidx.lifecycle.*
 import com.tktcorporation.roomwithaview.app.repository.WordRepository
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.tktcorporation.roomwithaview.infrastructure.entity.WordEntity
 import kotlinx.coroutines.launch
+
+/**
+ * View Model to keep a reference to the word repository and
+ * an up-to-date list of all words.
+ */
 
 class WordViewModel(private val repository: WordRepository) : ViewModel() {
 
@@ -16,8 +25,8 @@ class WordViewModel(private val repository: WordRepository) : ViewModel() {
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
-    fun insert(word: WordEntity) = viewModelScope.launch {
-        repository.insert(word)
+    fun insert(wordEntity: WordEntity) = viewModelScope.launch {
+        repository.insert(wordEntity)
     }
 }
 
