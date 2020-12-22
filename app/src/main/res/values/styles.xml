@@ -15,8 +15,4 @@
         <item name="android:background">@android:color/holo_orange_light</item>
         <item name="android:textAppearance">@android:style/TextAppearance.Large</item>
     </style>
-
-    <color name="colorPrimary">#2196F3</color>
-    <color name="colorPrimaryDark">#3F51B5</color>
-    <color name="colorAccent">#FF5722</color>
 </resources>
