@@ -8,6 +8,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.tktcorporation.roomwithaview.infrastructure.dao.WordDao
 import com.tktcorporation.roomwithaview.infrastructure.entity.WordEntity
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 // Annotates class to be a Room Database with a table (entity) of the Word class
@@ -15,33 +16,6 @@ import kotlinx.coroutines.launch
 public abstract class WordRoomDatabase : RoomDatabase() {
 
     abstract fun wordDao(): WordDao
-
-    private class WordDatabaseCallback(
-        private val scope: CoroutineScope
-    ) : RoomDatabase.Callback() {
-
-        override fun onCreate(db: SupportSQLiteDatabase) {
-            super.onCreate(db)
-            INSTANCE?.let { database ->
-                scope.launch {
-                    var wordDao = database.wordDao()
-
-                    // Delete all content here.
-                    wordDao.deleteAll()
-
-                    // Add sample words.
-                    var word = WordEntity("Hello")
-                    wordDao.insert(word)
-                    word = WordEntity("World!")
-                    wordDao.insert(word)
-
-                    // TODO: Add your own words!
-                    word = WordEntity("TODO!")
-                    wordDao.insert(word)
-                }
-            }
-        }
-    }
 
     companion object {
         // Singleton prevents multiple instances of database opening at the
@@ -74,6 +48,43 @@ public abstract class WordRoomDatabase : RoomDatabase() {
                 // return instance
                 instance
             }
+        }
+
+        private class WordDatabaseCallback(
+            private val scope: CoroutineScope
+        ) : RoomDatabase.Callback() {
+            /**
+             * Override the onCreate method to populate the database.
+             */
+            override fun onCreate(db: SupportSQLiteDatabase) {
+                super.onCreate(db)
+                // If you want to keep the data through app restarts,
+                // comment out the following line.
+                INSTANCE?.let { database ->
+                    scope.launch(Dispatchers.IO) {
+                        populateDatabase(
+                            database.wordDao()
+                        )
+                    }
+                }
+            }
+        }
+
+        /**
+         * Populate the database in a new coroutine.
+         * If you want to start with more words, just add them.
+         */
+        suspend fun populateDatabase(wordDao: WordDao) {
+            // Start the app with a clean database every time.
+            // Not needed if you only populate on creation.
+            wordDao.deleteAll()
+
+            var word =
+                WordEntity("Hello")
+            wordDao.insert(word)
+            word =
+                WordEntity("World!")
+            wordDao.insert(word)
         }
     }
 }
