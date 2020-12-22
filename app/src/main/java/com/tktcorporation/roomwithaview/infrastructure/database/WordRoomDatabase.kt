@@ -61,7 +61,14 @@ public abstract class WordRoomDatabase : RoomDatabase() {
                     WordRoomDatabase::class.java,
                     "word_database"
                 )
-                    .addCallback(WordDatabaseCallback(scope))
+                    // Wipes and rebuilds instead of migrating if no Migration object.
+                    // Migration is not part of this codelab.
+                    .fallbackToDestructiveMigration()
+                    .addCallback(
+                        WordDatabaseCallback(
+                            scope
+                        )
+                    )
                     .build()
                 INSTANCE = instance
                 // return instance
