@@ -1,4 +1,4 @@
-package com.tktcorporation.roomwithaview
+package com.tktcorporation.roomwithaview.presentation.activity
 
 import android.app.Activity
 import android.content.Intent
@@ -10,7 +10,6 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.tktcorporation.roomwithaview.NewWordActivity
 import com.tktcorporation.roomwithaview.R
 import com.tktcorporation.roomwithaview.app.WordsApplication
 import com.tktcorporation.roomwithaview.app.adapter.WordListAdapter
