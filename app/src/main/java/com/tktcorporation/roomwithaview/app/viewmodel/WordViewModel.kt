@@ -1,7 +1,7 @@
 package com.tktcorporation.roomwithaview.app.viewmodel
 
 import androidx.lifecycle.*
-import com.tktcorporation.roomwithaview.app.WordRepository
+import com.tktcorporation.roomwithaview.app.repository.WordRepository
 import com.tktcorporation.roomwithaview.infrastructure.entity.WordEntity
 import kotlinx.coroutines.launch
 

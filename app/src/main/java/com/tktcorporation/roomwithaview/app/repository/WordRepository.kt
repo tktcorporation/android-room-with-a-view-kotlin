@@ -1,4 +1,4 @@
-package com.tktcorporation.roomwithaview.app
+package com.tktcorporation.roomwithaview.app.repository
 
 import androidx.annotation.WorkerThread
 import com.tktcorporation.roomwithaview.infrastructure.dao.WordDao
