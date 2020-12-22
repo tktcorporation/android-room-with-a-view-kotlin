@@ -5,8 +5,10 @@ import com.tktcorporation.roomwithaview.infrastructure.dao.WordDao
 import com.tktcorporation.roomwithaview.infrastructure.entity.WordEntity
 import kotlinx.coroutines.flow.Flow
 
-// Declares the DAO as a private property in the constructor. Pass in the DAO
-// instead of the whole database, because you only need access to the DAO
+/**
+ * Abstracted Repository as promoted by the Architecture Guide.
+ * https://developer.android.com/topic/libraries/architecture/guide.html
+ */
 class WordRepository(private val wordDao: WordDao) {
 
     // Room executes all queries on a separate thread.
@@ -18,7 +20,7 @@ class WordRepository(private val wordDao: WordDao) {
     // off the main thread.
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insert(word: WordEntity) {
-        wordDao.insert(word)
+    suspend fun insert(wordEntity: WordEntity) {
+        wordDao.insert(wordEntity)
     }
 }
