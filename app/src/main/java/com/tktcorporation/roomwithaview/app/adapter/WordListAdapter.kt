@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tktcorporation.roomwithaview.R
 import com.tktcorporation.roomwithaview.infrastructure.entity.WordEntity
+import com.tktcorporation.roomwithaview.app.adapter.WordListAdapter.WordViewHolder
 
-class WordListAdapter : ListAdapter<WordEntity, WordListAdapter.WordViewHolder>(WordsComparator()) {
+class WordListAdapter : ListAdapter<WordEntity, WordViewHolder>(WORDS_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
         return WordViewHolder.create(parent)
@@ -37,13 +38,15 @@ class WordListAdapter : ListAdapter<WordEntity, WordListAdapter.WordViewHolder>(
         }
     }
 
-    class WordsComparator : DiffUtil.ItemCallback<WordEntity>() {
-        override fun areItemsTheSame(oldItem: WordEntity, newItem: WordEntity): Boolean {
-            return oldItem === newItem
-        }
+    companion object {
+        private val WORDS_COMPARATOR = object : DiffUtil.ItemCallback<WordEntity>() {
+            override fun areItemsTheSame(oldItem: WordEntity, newItem: WordEntity): Boolean {
+                return oldItem === newItem
+            }
 
-        override fun areContentsTheSame(oldItem: WordEntity, newItem: WordEntity): Boolean {
-            return oldItem.word == newItem.word
+            override fun areContentsTheSame(oldItem: WordEntity, newItem: WordEntity): Boolean {
+                return oldItem.word == newItem.word
+            }
         }
     }
 }
