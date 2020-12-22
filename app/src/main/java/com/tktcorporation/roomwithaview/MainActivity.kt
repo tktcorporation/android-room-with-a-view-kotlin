@@ -1,3 +1,5 @@
+package com.tktcorporation.roomwithaview
+
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
