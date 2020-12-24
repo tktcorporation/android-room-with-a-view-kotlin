@@ -1,4 +1,4 @@
-package com.tktcorporation.roomwithaview
+package com.tktcorporation.roomwithaview.presentation.activity
 
 import android.app.Activity
 import android.content.Intent
@@ -10,7 +10,6 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.tktcorporation.roomwithaview.NewWordActivity
 import com.tktcorporation.roomwithaview.R
 import com.tktcorporation.roomwithaview.app.WordsApplication
 import com.tktcorporation.roomwithaview.app.adapter.WordListAdapter
@@ -24,13 +23,16 @@ class MainActivity : AppCompatActivity() {
     private val wordViewModel: WordViewModel by viewModels {
         WordViewModelFactory((application as WordsApplication).repository)
     }
+    private lateinit var wordListAdapter: WordListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
-        val adapter = WordListAdapter()
+        val adapter = WordListAdapter(this, this@MainActivity.wordViewModel).also {
+            wordListAdapter = it
+        }
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -47,6 +49,8 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, NewWordActivity::class.java)
             startActivityForResult(intent, newWordActivityRequestCode)
         }
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
