@@ -1,5 +1,7 @@
 package com.tktcorporation.roomwithaview.app.viewmodel
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import com.tktcorporation.roomwithaview.app.repository.WordRepository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -27,6 +29,11 @@ class WordViewModel(private val repository: WordRepository) : ViewModel() {
      */
     fun insert(wordEntity: WordEntity) = viewModelScope.launch {
         repository.insert(wordEntity)
+    }
+
+    fun delete(wordEntity: WordEntity) = viewModelScope.launch {
+        Log.d(TAG, "delete: item was clicked.")
+        repository.delete(wordEntity)
     }
 }
 

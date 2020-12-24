@@ -1,9 +1,6 @@
 package com.tktcorporation.roomwithaview.infrastructure.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.tktcorporation.roomwithaview.infrastructure.entity.WordEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -29,4 +26,7 @@ interface WordDao {
 
     @Query("DELETE FROM word_table")
     suspend fun deleteAll()
+
+    @Delete()
+    suspend fun delete(wordEntity: WordEntity)
 }

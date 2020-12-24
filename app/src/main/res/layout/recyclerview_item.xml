@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/textView"
-        style="@style/word_title"
+    <data>
+        <variable
+            name="viewModel"
+            type="com.tktcorporation.roomwithaview.app.viewmodel.WordViewModel" />
+
+        <variable
+            name="word"
+            type="com.tktcorporation.roomwithaview.infrastructure.entity.WordEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_orange_light" />
-</LinearLayout>
+        android:padding="16dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:onClick="@{() -> viewModel.delete(word)}">
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/word_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@android:color/holo_orange_light" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

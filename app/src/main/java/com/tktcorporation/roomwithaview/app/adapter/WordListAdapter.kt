@@ -4,36 +4,39 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tktcorporation.roomwithaview.R
 import com.tktcorporation.roomwithaview.infrastructure.entity.WordEntity
 import com.tktcorporation.roomwithaview.app.adapter.WordListAdapter.WordViewHolder
+import com.tktcorporation.roomwithaview.app.viewmodel.WordViewModel
+import com.tktcorporation.roomwithaview.databinding.RecyclerviewItemBinding
 
-class WordListAdapter : ListAdapter<WordEntity, WordViewHolder>(WORDS_COMPARATOR) {
+class WordListAdapter(
+    private val viewLifecycleOwner: LifecycleOwner,
+    private val viewModel: WordViewModel
+) : ListAdapter<WordEntity, WordViewHolder>(WORDS_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
-        return WordViewHolder.create(parent)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        return WordViewHolder(RecyclerviewItemBinding.inflate(layoutInflater, parent, false))
     }
 
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current.word)
+        holder.bind(current, viewLifecycleOwner, viewModel)
     }
 
-    class WordViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val wordItemView: TextView = itemView.findViewById(R.id.textView)
+    class WordViewHolder(private val binding: RecyclerviewItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: WordEntity, viewLifecycleOwner: LifecycleOwner, viewModel: WordViewModel) {
+            binding.run {
+                lifecycleOwner = viewLifecycleOwner
+                word = item
+                this.viewModel = viewModel
 
-        fun bind(text: String?) {
-            wordItemView.text = text
-        }
-
-        companion object {
-            fun create(parent: ViewGroup): WordViewHolder {
-                val view: View = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.recyclerview_item, parent, false)
-                return WordViewHolder(view)
+                executePendingBindings()
             }
         }
     }
